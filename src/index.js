@@ -9,11 +9,11 @@ const component = () =>
         <ul>
             <li>Item one</li>
             <li>Item two</li>
-            <li>Item three</li>
+            <li><a href="">Item three</a></li>
             <li>Item four</li>
         </ul>
         `
     )
 }
 
-document.body.innerHTML = component();
+document.getElementById('content').innerHTML += component();
