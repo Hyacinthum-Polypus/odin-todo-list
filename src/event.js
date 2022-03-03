@@ -45,4 +45,4 @@ const EventAggregator = (() =>
     return {publish, subscribe}
 })()
 
-export {EventAggregator};
+export default EventAggregator;

@@ -7,14 +7,15 @@ const  DisplayerController = (() => {
                 <img src="" alt="Logo">
                 <h1>Todo List</h1>
             </header>
+            <div class="toolbar">
+                    <button id="add-project">+</button>
+                </div>
             <nav>
                 <ul>
-                    <li>Default</li>
                 </ul>
             </nav>
         </div>
         <main>
-            <h2>Default</h2>
         </main>`;
     }
 

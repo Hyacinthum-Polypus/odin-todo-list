@@ -21,6 +21,10 @@ main {
     padding: 20px;
 }
 
+/*.sidebar > * {
+    padding: 0 20px;
+}*/
+
 header {
     display: flex;
     justify-content: center;
@@ -34,4 +38,11 @@ nav ul {
 
 nav a {
     text-decoration: 0;
+}
+
+.toolbar {
+    background-color: lightgrey;
+    padding: 8px;
+    display: flex;
+    justify-content: flex-end;
 }
