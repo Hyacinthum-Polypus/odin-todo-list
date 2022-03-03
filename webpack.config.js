@@ -3,9 +3,12 @@ const path = require('path');
 
 module.exports = {
     mode: 'development',
-    entry: "./src/index.js",
+    entry: {
+        event: "./src/event.js",
+        index: "./src/index.js",
+    },        
     output: {
-        filename: 'main.js',
+        filename: '[name].bundle.js',
         path: path.resolve(__dirname, 'dist'),
         clean: true,
     },
@@ -27,4 +30,7 @@ module.exports = {
             },
         ],
     },
+    optimization: {
+        runtimeChunk: 'single',
+    }
 }

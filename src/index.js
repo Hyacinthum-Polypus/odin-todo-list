@@ -1,21 +1,24 @@
+import DisplayController from './displayController.js';
+import {EventAggregator} from './event.js';
 import './style.css';
 
-console.log('Hello, world');
+DisplayController.initHTML();
 
-const component = () =>
-{
-    return(
-        `
-        <h1>Hello, Will</h1>
-        <p>going away so soon</p>
-        <ul>
-            <li>Item one</li>
-            <li>Item two</li>
-            <li><a href="">Item three</a></li>
-            <li>Item four</li>
-        </ul>
-        `
-    )
+
+function Todo(name, description, dueDate, priority)
+{    
+    return {name, description, dueDate, priority};
 }
 
-document.getElementById('content').innerHTML += component();
+const Project = (name, description) =>
+{
+    return {name, description, todos: []}
+}
+
+const myTodo = Todo('word', 'word word', '9-10-2001', 1);
+
+console.log(myTodo);
+
+const Default = Project('Default', 'A default area to put all your todos if they have nowhere else to go');
+
+

@@ -1,12 +1,48 @@
-const Event = name => {
+const Event = name => 
+{
     const _handlers = []
 
     const proto = {
-        fire: () => _handlers.forEach(f => f()),
-        addHandler: handler => _handlers.push(handler)
+        fire: (...msg) => _handlers.forEach(f => f(...msg)),
+        addHandler: handler => _handlers.push(handler),
+        getName: () => {return name;}
     }
 
-    return Object.assign(Object.create(proto), {name});
+    return Object.create(proto)
 }
 
-export {Event};
+const EventAggregator = (() => 
+{
+    const _events = [];
+
+    const _checkForEvent = name =>
+    {
+        return _events.findIndex(event => name == event.name);
+    }
+
+    const publish = (name, ...msg) => 
+    {
+        const eventIndex = _checkForEvent();
+        if(eventIndex == -1)
+        {
+            _events.push(Event(name, ...msg))
+        }
+
+        _events[eventIndex].fire();
+    }
+
+    const subscribe = (name, handler) =>
+    {
+        let eventIndex = _checkForEvent();
+        if(eventIndex == -1)
+        {
+            _events.push(Event(name));
+            eventIndex = _events.length - 1;
+        }
+        _events[eventIndex].addHandler(handler);
+    }
+
+    return {publish, subscribe}
+})()
+
+export {EventAggregator};
