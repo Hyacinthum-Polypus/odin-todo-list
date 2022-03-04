@@ -17,12 +17,12 @@ const EventAggregator = (() =>
 
     const _checkForEvent = name =>
     {
-        return _events.findIndex(event => name == event.name);
+        return _events.findIndex(event => name == event.getName());
     }
 
     const publish = (name, ...msg) => 
     {
-        const eventIndex = _checkForEvent();
+        const eventIndex = _checkForEvent(name);
         if(eventIndex == -1)
         {
             _events.push(Event(name, ...msg))
@@ -33,7 +33,8 @@ const EventAggregator = (() =>
 
     const subscribe = (name, handler) =>
     {
-        let eventIndex = _checkForEvent();
+        let eventIndex = _checkForEvent(name);
+        console.log(_events[eventIndex]);
         if(eventIndex == -1)
         {
             _events.push(Event(name));
