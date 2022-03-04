@@ -1,3 +1,5 @@
+import EventAggregator from "./event";
+
 const  DisplayerController = (() => {
     const initHTML = () =>
     {
@@ -19,10 +21,18 @@ const  DisplayerController = (() => {
         <main>
         </main>`;
 
-        document.getElementById('add-project-button').addEventListener('click', toogleAddProjectInput);
+        document.getElementById('add-project-button').addEventListener('click', toggleAddProjectInput);
+        //EventAggregator.subscribe('')
     }
 
-    const toogleAddProjectInput = () =>
+    /*const addProjectToNav = project =>
+    {
+        const listItem = document.createElementNS('li');
+        listItem.textContent = project;
+        document.querySelector('ul').appendChild('')
+    }*/
+
+    const toggleAddProjectInput = () =>
     {
         if(document.querySelector('.add-project-input'))
         {
@@ -33,6 +43,7 @@ const  DisplayerController = (() => {
             const input = document.createElement('input');
             input.classList.add('add-project-input')
             document.querySelector('.input-bar').appendChild(input);
+            input.addEventListener('keydown', e => {if(e.key == 'Enter') {EventAggregator.publish('add project', input.value); toggleAddProjectInput()};});
         }
     }
 

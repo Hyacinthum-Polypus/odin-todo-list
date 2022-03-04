@@ -22,24 +22,27 @@ const EventAggregator = (() =>
 
     const publish = (name, ...msg) => 
     {
-        const eventIndex = _checkForEvent(name);
+        let eventIndex = _checkForEvent(name);
         if(eventIndex == -1)
         {
-            _events.push(Event(name, ...msg))
+            _events.push(Event(name))
+            eventIndex = _events.length - 1;
         }
 
-        _events[eventIndex].fire();
+        console.log(_events[eventIndex].getName());
+        _events[eventIndex].fire(...msg);
     }
 
     const subscribe = (name, handler) =>
     {
         let eventIndex = _checkForEvent(name);
-        console.log(_events[eventIndex]);
         if(eventIndex == -1)
         {
             _events.push(Event(name));
             eventIndex = _events.length - 1;
         }
+
+        console.log(_events[eventIndex].getName());
         _events[eventIndex].addHandler(handler);
     }
 

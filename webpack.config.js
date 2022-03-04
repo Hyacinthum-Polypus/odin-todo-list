@@ -5,6 +5,7 @@ module.exports = {
     mode: 'development',
     entry: {
         event: "./src/event.js",
+        project: "./src/project.js",
         index: "./src/index.js",
     },        
     output: {
