@@ -8,8 +8,9 @@ const  DisplayerController = (() => {
                 <h1>Todo List</h1>
             </header>
             <div class="toolbar">
-                    <button id="add-project">+</button>
-                </div>
+                    <button id="add-project-button">+</button>
+            </div>
+            <div class="input-bar"></div>
             <nav>
                 <ul>
                 </ul>
@@ -17,6 +18,22 @@ const  DisplayerController = (() => {
         </div>
         <main>
         </main>`;
+
+        document.getElementById('add-project-button').addEventListener('click', toogleAddProjectInput);
+    }
+
+    const toogleAddProjectInput = () =>
+    {
+        if(document.querySelector('.add-project-input'))
+        {
+            document.querySelector('.add-project-input').remove();
+        }
+        else
+        {
+            const input = document.createElement('input');
+            input.classList.add('add-project-input')
+            document.querySelector('.input-bar').appendChild(input);
+        }
     }
 
     return {initHTML}

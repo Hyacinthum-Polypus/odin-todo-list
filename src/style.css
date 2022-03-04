@@ -46,3 +46,16 @@ nav a {
     display: flex;
     justify-content: flex-end;
 }
+
+.input-bar {
+    display: flex;
+    height: 30px;
+    width: 100%;
+    background-color: lightgray;
+}
+
+.add-project-input {
+    flex: 1 0 0;
+    background-color: white;
+    margin: 5px;
+}
