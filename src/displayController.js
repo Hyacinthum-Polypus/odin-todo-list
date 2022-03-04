@@ -14,6 +14,7 @@ const  DisplayerController = (() => {
             </div>
             <div class="input-bar"></div>
             <nav>
+                <h3>Projects</h3>
                 <ul>
                 </ul>
             </nav>
@@ -22,15 +23,15 @@ const  DisplayerController = (() => {
         </main>`;
 
         document.getElementById('add-project-button').addEventListener('click', toggleAddProjectInput);
-        //EventAggregator.subscribe('')
+        EventAggregator.subscribe('project created', projectName => addProjectToNav(projectName));
     }
 
-    /*const addProjectToNav = project =>
+    const addProjectToNav = project =>
     {
-        const listItem = document.createElementNS('li');
+        const listItem = document.createElement('li');
         listItem.textContent = project;
-        document.querySelector('ul').appendChild('')
-    }*/
+        document.querySelector('ul').appendChild(listItem);
+    }
 
     const toggleAddProjectInput = () =>
     {
@@ -43,6 +44,7 @@ const  DisplayerController = (() => {
             const input = document.createElement('input');
             input.classList.add('add-project-input')
             document.querySelector('.input-bar').appendChild(input);
+            input.focus();
             input.addEventListener('keydown', e => {if(e.key == 'Enter') {EventAggregator.publish('add project', input.value); toggleAddProjectInput()};});
         }
     }

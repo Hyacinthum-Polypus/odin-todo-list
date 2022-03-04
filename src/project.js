@@ -17,7 +17,7 @@ const ProjectAggregator = (() => {
     {
         _projects.push(Project(name));
         console.log(_projects);
-        EventAggregator.publish('project created', _projects[_projects.length-1]);
+        EventAggregator.publish('project created', _projects[_projects.length-1].name);
     }
     EventAggregator.subscribe('add project', name => {addProject(name);});
 
