@@ -17,6 +17,13 @@ main {
     padding: 100px;
 }
 
+.project-heading {
+    width: 100%;
+    font-size: 5rem;
+    border: none;
+    border-bottom: 10px solid black;
+}
+
 .sidebar {
     background-color: whitesmoke;
     padding: 20px;
@@ -36,7 +43,12 @@ nav ul {
 
 nav li {
     list-style: none;
-    padding: 12px 0;
+    padding: 12px 8px;
+    cursor: pointer;
+}
+
+.selected {
+    background-color: lightgray;
 }
 
 .toolbar {

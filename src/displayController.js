@@ -20,18 +20,21 @@ const  DisplayerController = (() => {
             </nav>
         </div>
         <main>
+            <input type="type" class="project-heading">
         </main>`;
 
         document.getElementById('add-project-button').addEventListener('click', toggleAddProjectInput);
-        EventAggregator.subscribe('project created', projectName => addProjectToNav(projectName));
     }
 
-    const addProjectToNav = project =>
+    const addProjectToNav = (project, id) =>
     {
         const listItem = document.createElement('li');
         listItem.textContent = project;
+        listItem.setAttribute('data-id', id);
+        listItem.addEventListener('click', () => {EventAggregator.publish('select project', id);});
         document.querySelector('ul').appendChild(listItem);
     }
+    EventAggregator.subscribe('project created', (projectName, id) => addProjectToNav(projectName, id));
 
     const toggleAddProjectInput = () =>
     {
@@ -42,12 +45,21 @@ const  DisplayerController = (() => {
         else
         {
             const input = document.createElement('input');
+            input.setAttribute('type', 'text');
             input.classList.add('add-project-input')
             document.querySelector('.input-bar').appendChild(input);
             input.focus();
             input.addEventListener('keydown', e => {if(e.key == 'Enter') {EventAggregator.publish('add project', input.value); toggleAddProjectInput()};});
         }
     }
+
+    EventAggregator.subscribe('view project', project => {
+        console.log(project);
+        if(document.querySelector('.selected') != null) document.querySelector('.selected').classList.remove('selected');
+        document.querySelector(`nav li[data-id="${project.getId()}"]`).classList.add('selected');
+        const projectHeading = document.querySelector('.project-heading');
+        projectHeading.value = project.name;
+    });
 
     return {initHTML}
 })()

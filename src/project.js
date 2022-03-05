@@ -25,16 +25,24 @@ const ProjectAggregator = (() => {
 
     const addProject = name =>
     {
-        _projects.push(Project(getNewUniqueId(), name));
+        const newId = getNewUniqueId();
+        _projects.push(Project(newId, name));
         console.log(_projects);
-        EventAggregator.publish('project created', _projects[_projects.length-1].name);
+        EventAggregator.publish('project created', _projects[_projects.length-1].name, newId);
     }
     EventAggregator.subscribe('add project', name => {addProject(name);});
 
     const getProject = id =>
     {
-        return _projects.find(project => {project.getId() == id});
+        return _projects.find(project => {return project.getId() == id});
     }
+
+    EventAggregator.subscribe('select project', id => {
+        const project = getProject(id);
+        EventAggregator.publish('view project', project);
+    });
+
+    EventAggregator.subscribe('update project', newProject => {})
 
     return {addProject, getProject}
 })()
