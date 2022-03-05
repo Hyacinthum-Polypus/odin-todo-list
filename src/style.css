@@ -24,6 +24,11 @@ main {
     border-bottom: 10px solid black;
 }
 
+.project-description {
+    width: 100%;
+    resize: vertical;
+}
+
 .sidebar {
     background-color: whitesmoke;
     padding: 20px;

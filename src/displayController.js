@@ -21,6 +21,7 @@ const  DisplayerController = (() => {
         </div>
         <main>
             <input type="type" class="project-heading">
+            <textarea class="project-description"></textarea>
         </main>`;
 
         document.getElementById('add-project-button').addEventListener('click', toggleAddProjectInput);
@@ -59,6 +60,8 @@ const  DisplayerController = (() => {
         document.querySelector(`nav li[data-id="${project.getId()}"]`).classList.add('selected');
         const projectHeading = document.querySelector('.project-heading');
         projectHeading.value = project.name;
+        const projectDescription = document.querySelector('.project-description');
+        projectDescription.value = project.description;
     });
 
     return {initHTML}
