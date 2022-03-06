@@ -42,7 +42,13 @@ const ProjectAggregator = (() => {
         EventAggregator.publish('view project', project);
     });
 
-    EventAggregator.subscribe('update project', newProject => {})
+    EventAggregator.subscribe('update project', (id, newProject) => {
+        const project = getProject(id);
+        for(let key in newProject)
+        {
+            project[key] = newProject[key];
+        }
+    })
 
     return {addProject, getProject}
 })()
