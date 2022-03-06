@@ -20,8 +20,8 @@ const  DisplayerController = (() => {
             </nav>
         </div>
         <main>
-            <input type="type" class="project-heading">
-            <textarea class="project-description"></textarea>
+            <input placeholder="Project title here..." type="type" class="project-heading">
+            <textarea placeholder="Project description here..." class="project-description" rows="10"></textarea>
         </main>`;
 
         document.getElementById('add-project-button').addEventListener('click', toggleAddProjectInput);

@@ -5,6 +5,7 @@ import './style.css';
 DisplayController.initHTML();
 
 EventAggregator.publish('add project', 'Default');
+EventAggregator.publish('select project', 0);
 EventAggregator.publish('add project', 'Trip to Rome');
 EventAggregator.publish('add project', 'Todo list project');
 
