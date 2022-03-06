@@ -44,10 +44,8 @@ const ProjectAggregator = (() => {
 
     EventAggregator.subscribe('update project', (id, newProject) => {
         const project = getProject(id);
-        for(let key in newProject)
-        {
-            project[key] = newProject[key];
-        }
+        
+        Object.assign(project, newProject);
     })
 
     return {addProject, getProject}
