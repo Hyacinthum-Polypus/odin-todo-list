@@ -25,6 +25,13 @@ const  DisplayerController = (() => {
         </main>`;
 
         document.getElementById('add-project-button').addEventListener('click', toggleAddProjectInput);
+
+        const projectHeading = document.querySelector('.project-heading');
+        projectHeading.addEventListener('input', () => EventAggregator.publish('update project', document.querySelector('.selected').getAttribute('data-id'), {name: projectHeading.value}));
+
+        const projectDescription = document.querySelector('.project-description');
+        projectDescription.addEventListener('input',  () => EventAggregator.publish('update project', document.querySelector('.selected').getAttribute('data-id'), {description: projectDescription.value}));
+
     }
 
     const addProjectToNav = (project, id) =>
@@ -55,9 +62,10 @@ const  DisplayerController = (() => {
     }
 
     EventAggregator.subscribe('view project', project => {
-        console.log(project);
         if(document.querySelector('.selected') != null) document.querySelector('.selected').classList.remove('selected');
-        document.querySelector(`nav li[data-id="${project.getId()}"]`).classList.add('selected');
+        const selected = document.querySelector(`nav li[data-id="${project.getId()}"]`)
+        selected.classList.add('selected');
+        selected.textContent = project.name;
         const projectHeading = document.querySelector('.project-heading');
         projectHeading.value = project.name;
         const projectDescription = document.querySelector('.project-description');
