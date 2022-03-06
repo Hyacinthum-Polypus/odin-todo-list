@@ -65,7 +65,7 @@ const  DisplayerController = (() => {
         if(document.querySelector('.selected') != null) document.querySelector('.selected').classList.remove('selected');
         const selected = document.querySelector(`nav li[data-id="${project.getId()}"]`)
         selected.classList.add('selected');
-        selected.textContent = project.name;
+        selected.textContent = project.name == '' ? 'Untitled Project' : project.name;;
         const projectHeading = document.querySelector('.project-heading');
         projectHeading.value = project.name;
         const projectDescription = document.querySelector('.project-description');
