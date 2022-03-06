@@ -32,8 +32,10 @@ main {
     border-bottom: 2px solid black;
 }
 
-#todo-container {
-    display: flex;
+#todos-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    column-gap: 20px;
     flex-direction: column;
     gap: 18px;
     align-items: center;
@@ -51,6 +53,38 @@ main {
 #todo-container-buttons > button {
     font-size: 30px;
     padding: 5px 15px;
+}
+
+.todo {
+    display: grid;
+
+    height: 250px;
+
+    grid-template-columns: 1fr 4fr;
+    grid-template-rows: 1fr 2fr;
+
+    border: 5px solid black;
+}
+
+.todo-checkbox-container {
+    grid-column: 1;
+    grid-row: span 2;
+    background-color: greenyellow;
+}
+
+.todo-name {
+    grid-column: 2;
+    grid-row: 1;
+    font-size: 25px;
+    font-weight: bold;
+    background-color: black;
+    color: white;
+}
+
+.todo-description {
+    grid-column: 2;
+    grid-row: 2;
+    resize: none;
 }
 
 .sidebar {

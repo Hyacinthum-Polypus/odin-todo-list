@@ -22,10 +22,11 @@ const  DisplayerController = (() => {
         <main>
             <input placeholder="Project title here..." type="type" class="project-heading">
             <textarea placeholder="Project description here..." class="project-description" rows="10"></textarea>
-            <div id="todo-container">
-                <div id="todo-container-buttons">
-                    <button id="new-todo">+</button>
-                </div>
+            <div id="todo-container-buttons">
+                <button id="new-todo">+</button>
+            </div>
+            <div id="todos-container">
+
             </div>
         </main>`;
 
@@ -39,6 +40,8 @@ const  DisplayerController = (() => {
 
         const projectDescription = document.querySelector('.project-description');
         projectDescription.addEventListener('input',  () => EventAggregator.publish('update project', document.querySelector('.selected').getAttribute('data-id'), {description: projectDescription.value}));
+
+        document.getElementById('new-todo').addEventListener('click', createTodo)
 
     }
 
@@ -67,6 +70,26 @@ const  DisplayerController = (() => {
             input.focus();
             input.addEventListener('keydown', e => {if(e.key == 'Enter') {EventAggregator.publish('add project', input.value); toggleAddProjectInput()};});
         }
+    }
+
+    const createTodo = () =>
+    {
+        const todo = document.createElement('div');
+        todo.classList.add('todo');
+
+        const checkboxContainer = document.createElement('div');
+        checkboxContainer.classList.add('todo-checkbox-container');
+        todo.appendChild(checkboxContainer);
+
+        const todoName = document.createElement('input');
+        todoName.classList.add('todo-name');
+        todo.appendChild(todoName);
+
+        const todoDescriptoion = document.createElement('textarea');
+        todoDescriptoion.classList.add('todo-description');
+        todo.appendChild(todoDescriptoion);
+
+        document.getElementById('todos-container').appendChild(todo);
     }
 
     EventAggregator.subscribe('view project', (id, name, description, todos) => {
