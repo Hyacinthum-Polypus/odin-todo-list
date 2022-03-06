@@ -39,15 +39,14 @@ const ProjectAggregator = (() => {
 
     EventAggregator.subscribe('select project', id => {
         const project = getProject(id);
-        EventAggregator.publish('view project', project);
+        EventAggregator.publish('view project', project.getId(), project.name, project.description, project.todos);
     });
 
-    EventAggregator.subscribe('update project', (id, newProject, selectProject = true) => {
+    EventAggregator.subscribe('update project', (id, newProject) => {
         const project = getProject(id);
         
         Object.assign(project, newProject);
-
-        if(selectProject) EventAggregator.publish('view project', project);
+        EventAggregator.publish('update nav', project.getId(), project.name)
     })
 
     return {addProject, getProject}

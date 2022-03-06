@@ -9,5 +9,5 @@ EventAggregator.publish('add project', 'Trip to Rome');
 EventAggregator.publish('add project', 'Todo list project');
 EventAggregator.publish('select project', 0);
 
-EventAggregator.publish('update project', 1, {name: 'New Default', description: "This is the default todo list if you have no other todo lists."}, false);
+EventAggregator.publish('update project', 1, {name: 'New Default', description: "This is the default todo list if you have no other todo lists."});
 

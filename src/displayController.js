@@ -22,12 +22,20 @@ const  DisplayerController = (() => {
         <main>
             <input placeholder="Project title here..." type="type" class="project-heading">
             <textarea placeholder="Project description here..." class="project-description" rows="10"></textarea>
+            <div id="todo-container">
+                <div id="todo-container-buttons">
+                    <button id="new-todo">+</button>
+                </div>
+            </div>
         </main>`;
 
         document.getElementById('add-project-button').addEventListener('click', toggleAddProjectInput);
 
         const projectHeading = document.querySelector('.project-heading');
-        projectHeading.addEventListener('input', () => EventAggregator.publish('update project', document.querySelector('.selected').getAttribute('data-id'), {name: projectHeading.value}));
+        projectHeading.addEventListener('input', () => {
+            EventAggregator.publish('update project', document.querySelector('.selected').getAttribute('data-id'), {name: projectHeading.value});
+            document.querySelector('.selected').textContent = projectHeading.value == '' ? 'Untitled Project' : projectHeading.value;
+        });
 
         const projectDescription = document.querySelector('.project-description');
         projectDescription.addEventListener('input',  () => EventAggregator.publish('update project', document.querySelector('.selected').getAttribute('data-id'), {description: projectDescription.value}));
@@ -61,15 +69,18 @@ const  DisplayerController = (() => {
         }
     }
 
-    EventAggregator.subscribe('view project', project => {
+    EventAggregator.subscribe('view project', (id, name, description, todos) => {
         if(document.querySelector('.selected') != null) document.querySelector('.selected').classList.remove('selected');
-        const selected = document.querySelector(`nav li[data-id="${project.getId()}"]`)
+        const selected = document.querySelector(`nav li[data-id="${id}"]`)
         selected.classList.add('selected');
-        selected.textContent = project.name == '' ? 'Untitled Project' : project.name;;
         const projectHeading = document.querySelector('.project-heading');
-        projectHeading.value = project.name;
+        projectHeading.value = name;
         const projectDescription = document.querySelector('.project-description');
-        projectDescription.value = project.description;
+        projectDescription.value = description;
+    });
+
+    EventAggregator.subscribe('update nav', (id, name) => {
+        document.querySelector(`nav li[data-id="${id}"]`).textContent = name;
     });
 
     return {initHTML}

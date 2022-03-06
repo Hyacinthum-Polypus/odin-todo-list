@@ -32,6 +32,27 @@ main {
     border-bottom: 2px solid black;
 }
 
+#todo-container {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    align-items: center;
+    margin-top: 18px;
+}
+
+#todo-container-buttons {
+    width: 100%;
+    background-color:lightgrey;
+    display: flex;
+    justify-content: flex-end;
+    padding: 8px;
+}
+
+#todo-container-buttons > button {
+    font-size: 30px;
+    padding: 5px 15px;
+}
+
 .sidebar {
     background-color: whitesmoke;
     padding: 20px;
