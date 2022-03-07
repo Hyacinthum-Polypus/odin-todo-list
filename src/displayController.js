@@ -1,4 +1,5 @@
 import EventAggregator from "./event";
+import { isDateInThePast } from "./date";
 
 const  DisplayerController = (() => {
     const initHTML = () =>
@@ -144,33 +145,33 @@ const  DisplayerController = (() => {
 
         const year = document.createElement('input');
         year.setAttribute('type', 'number');
-        year.setAttribute('min', 2022);
-        year.setAttribute('max', 3000);
+        year.setAttribute('min', 1985);
+        year.setAttribute('max', 9999);
         year.setAttribute('value', dueDate.year);
 
         todoDate.innerHTML = 'Due date: ' + day.outerHTML + '-' + month.outerHTML + '-' + year.outerHTML;
 
-        if(date.getFullYear() > dueDate.year)
-        {
-            todoDate.classList.add('late');
-        } 
-        else if(date.getFullYear() == dueDate.year)
-        {
-            if(date.getMonth() > dueDate.month)
-            {
-                todoDate.classList.add('late');
-            }
-            else if(date.getMonth() == dueDate.month)
-            {
-                if(date.getDate() > dueDate.day) todo.classList.add('late');
-            }
-        }
+        Array.from(todoDate.children).forEach(child => child.addEventListener('input', () => {
+            recordTodos();
+            if(isDateInThePast({
+                day: todoDate.children[0].value,
+                month: todoDate.children[1].value,
+                year: todoDate.children[2].value}
+            )) todoDate.classList.add('late');
+            else todoDate.classList.remove('late');
+        }));
+
+
+        if(isDateInThePast(dueDate)) todoDate.classList.add('late');
         
         const removeTodoButton = document.createElement('button');
         removeTodoButton.classList.add('todo-button');
         removeTodoButton.textContent = 'Delete';
         todoButtons.appendChild(removeTodoButton);
-        removeTodoButton.addEventListener('click', () => todo.remove());
+        removeTodoButton.addEventListener('click', () => {
+            todo.remove();
+            recordTodos();
+        });
 
         document.getElementById('todos-container').appendChild(todo);
 
@@ -183,22 +184,31 @@ const  DisplayerController = (() => {
         const newTodos = Array.from(todosElements).map(todo => {
             let newTodo = {};
             Array.from(todo.children).forEach(child => {
-                switch(child.getAttribute('class'))
+                switch(true)
                 {
-                    case 'todo-name':
+                    case child.classList.contains('todo-name'):
                         newTodo.name = child.value;
                     break;
-                    case 'todo-description':
+                    case child.classList.contains('todo-description'):
                         newTodo.description = child.value;
                     break;
-                    case 'todo-checkbox-container':
+                    case child.classList.contains('todo-checkbox-container'):
                         newTodo.completed = child.children[0].children[0].getAttribute('hidden') == null;
+                    break;
+                    case child.classList.contains('todo-date'):
+                        console.log(child.children);
+                        newTodo.dueDate = {};
+                        newTodo.dueDate.day = child.children[0].value;
+                        newTodo.dueDate.month = child.children[1].value;
+                        newTodo.dueDate.year = child.children[2].value;
                     break;
                 }
             });
             return newTodo;
         });
+        console.group('new todo');
         console.log(newTodos);
+        console.groupEnd();
         EventAggregator.publish('update project', getSelectedProjectId(),{todos: newTodos});
     }
 
@@ -215,7 +225,7 @@ const  DisplayerController = (() => {
 
         todos.forEach(todo => {
             console.log(todo); console.log(todo.name);
-            createTodo(todo.name, todo.description, todo.complete);
+            createTodo(todo.name, todo.description, todo.complete, todo.dueDate);
         });
     });
 
