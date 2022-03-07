@@ -34,15 +34,19 @@ const  DisplayerController = (() => {
 
         const projectHeading = document.querySelector('.project-heading');
         projectHeading.addEventListener('input', () => {
-            EventAggregator.publish('update project', document.querySelector('.selected').getAttribute('data-id'), {name: projectHeading.value});
+            EventAggregator.publish('update project', getSelectedProjectId(), {name: projectHeading.value});
             document.querySelector('.selected').textContent = projectHeading.value == '' ? 'Untitled Project' : projectHeading.value;
         });
 
         const projectDescription = document.querySelector('.project-description');
-        projectDescription.addEventListener('input',  () => EventAggregator.publish('update project', document.querySelector('.selected').getAttribute('data-id'), {description: projectDescription.value}));
+        projectDescription.addEventListener('input',  () => EventAggregator.publish('update project', getSelectedProjectId(), {description: projectDescription.value}));
 
         document.getElementById('new-todo').addEventListener('click', createTodo)
+    }
 
+    const getSelectedProjectId = () =>
+    {
+        return document.querySelector('.selected').getAttribute('data-id');
     }
 
     const addProjectToNav = (project, id) =>
@@ -83,13 +87,42 @@ const  DisplayerController = (() => {
 
         const todoName = document.createElement('input');
         todoName.classList.add('todo-name');
+        todoName.addEventListener('input', recordTodos);
         todo.appendChild(todoName);
 
         const todoDescriptoion = document.createElement('textarea');
         todoDescriptoion.classList.add('todo-description');
+        todoDescriptoion.addEventListener('input', recordTodos);
         todo.appendChild(todoDescriptoion);
 
         document.getElementById('todos-container').appendChild(todo);
+
+        recordTodos();
+    }
+
+    const recordTodos = () =>
+    {
+        const todosElements = document.querySelectorAll('.todo');
+        const newTodos = Array.from(todosElements).map(todo => {
+            let newTodo = {};
+            Array.from(todo.children).forEach(child => {
+                switch(child.getAttribute('class'))
+                {
+                    case 'todo-name':
+                        newTodo.name = child.value;
+                    break;
+                    case 'todo-description':
+                        newTodo.description = child.value;
+                    break;
+                    case '.todo-checkbox-container':
+
+                    break;
+                }
+            });
+            return newTodo;
+        });
+        console.log(newTodos);
+        EventAggregator.publish('update project', getSelectedProjectId(),{todos: newTodos});
     }
 
     EventAggregator.subscribe('view project', (id, name, description, todos) => {

@@ -34,7 +34,7 @@ main {
 
 #todos-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     column-gap: 20px;
     flex-direction: column;
     gap: 18px;
@@ -58,7 +58,7 @@ main {
 .todo {
     display: grid;
 
-    height: 250px;
+    height: 200px;
 
     grid-template-columns: 1fr 4fr;
     grid-template-rows: 1fr 2fr;
@@ -68,14 +68,16 @@ main {
 
 .todo-checkbox-container {
     grid-column: 1;
+    min-width: 50px;;
     grid-row: span 2;
     background-color: greenyellow;
 }
 
 .todo-name {
+    min-width: 0;
     grid-column: 2;
     grid-row: 1;
-    font-size: 25px;
+    font-size: 2em;
     font-weight: bold;
     background-color: black;
     color: white;
