@@ -61,7 +61,7 @@ main {
     height: 200px;
 
     grid-template-columns: 1fr 4fr;
-    grid-template-rows: 1fr 2fr;
+    grid-template-rows: 1fr 2fr 0.5fr 0.5fr;
 
     border: 5px solid black;
 }
@@ -69,7 +69,7 @@ main {
 .todo-checkbox-container {
     grid-column: 1;
     min-width: 50px;;
-    grid-row: span 2;
+    grid-row: span 4;
     background-color: greenyellow;
     padding: 0 12px;
 
@@ -110,6 +110,24 @@ main {
     grid-column: 2;
     grid-row: 2;
     resize: none;
+}
+
+.todo-date {
+    text-align: center;
+}
+
+.late {
+    color: red;
+}
+
+.todo-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+}
+
+.todo-button {
+    border: none;
 }
 
 .sidebar {

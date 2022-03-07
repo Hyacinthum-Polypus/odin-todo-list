@@ -76,7 +76,7 @@ const  DisplayerController = (() => {
         }
     }
 
-    const createTodo = (name = " ", description = " ", complete = false) =>
+    const createTodo = (name = " ", description = " ", complete = false, dueDate = null) =>
     {
         const todo = document.createElement('div');
         todo.classList.add('todo');
@@ -111,6 +111,66 @@ const  DisplayerController = (() => {
         todoDescription.value = description;
         todoDescription.addEventListener('input', recordTodos);
         todo.appendChild(todoDescription);
+
+        const todoDate = document.createElement('div');
+        todoDate.classList.add('todo-date');
+        todo.appendChild(todoDate);
+        
+        const todoButtons = document.createElement('div');
+        todoButtons.classList.add('todo-buttons');
+        todo.appendChild(todoButtons);
+
+        const date = new Date();
+        
+        if(dueDate == null) 
+        {
+            dueDate = {};
+            dueDate.day = date.getDate();
+            dueDate.month = date.getMonth();
+            dueDate.year = date.getFullYear();
+        }
+
+        const day = document.createElement('input');
+        day.setAttribute('type', 'number');
+        day.setAttribute('min', 1);
+        day.setAttribute('max', 31);
+        day.setAttribute('value', dueDate.day);
+
+        const month = document.createElement('input');
+        month.setAttribute('type', 'number');
+        month.setAttribute('min', 1);
+        month.setAttribute('max', 12);
+        month.setAttribute('value', dueDate.month);
+
+        const year = document.createElement('input');
+        year.setAttribute('type', 'number');
+        year.setAttribute('min', 2022);
+        year.setAttribute('max', 3000);
+        year.setAttribute('value', dueDate.year);
+
+        todoDate.innerHTML = 'Due date: ' + day.outerHTML + '-' + month.outerHTML + '-' + year.outerHTML;
+
+        if(date.getFullYear() > dueDate.year)
+        {
+            todoDate.classList.add('late');
+        } 
+        else if(date.getFullYear() == dueDate.year)
+        {
+            if(date.getMonth() > dueDate.month)
+            {
+                todoDate.classList.add('late');
+            }
+            else if(date.getMonth() == dueDate.month)
+            {
+                if(date.getDate() > dueDate.day) todo.classList.add('late');
+            }
+        }
+        
+        const removeTodoButton = document.createElement('button');
+        removeTodoButton.classList.add('todo-button');
+        removeTodoButton.textContent = 'Delete';
+        todoButtons.appendChild(removeTodoButton);
+        removeTodoButton.addEventListener('click', () => todo.remove());
 
         document.getElementById('todos-container').appendChild(todo);
 
