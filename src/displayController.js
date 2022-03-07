@@ -41,7 +41,7 @@ const  DisplayerController = (() => {
         const projectDescription = document.querySelector('.project-description');
         projectDescription.addEventListener('input',  () => EventAggregator.publish('update project', getSelectedProjectId(), {description: projectDescription.value}));
 
-        document.getElementById('new-todo').addEventListener('click', createTodo)
+        document.getElementById('new-todo').addEventListener('click', () => createTodo())
     }
 
     const getSelectedProjectId = () =>
@@ -76,7 +76,7 @@ const  DisplayerController = (() => {
         }
     }
 
-    const createTodo = () =>
+    const createTodo = (name = " ", description = " ", complete = false) =>
     {
         const todo = document.createElement('div');
         todo.classList.add('todo');
@@ -91,7 +91,7 @@ const  DisplayerController = (() => {
 
         const checkmark = document.createElement('div');
         checkmark.classList.add('todo-checkmark');
-        checkmark.toggleAttribute('hidden');
+        if(complete == false) checkmark.toggleAttribute('hidden');
         checkbox.appendChild(checkmark);
 
         checkbox.addEventListener('click', () => {
@@ -101,13 +101,16 @@ const  DisplayerController = (() => {
 
         const todoName = document.createElement('input');
         todoName.classList.add('todo-name');
+        console.log(name);
+        todoName.value = name;
         todoName.addEventListener('input', recordTodos);
         todo.appendChild(todoName);
 
-        const todoDescriptoion = document.createElement('textarea');
-        todoDescriptoion.classList.add('todo-description');
-        todoDescriptoion.addEventListener('input', recordTodos);
-        todo.appendChild(todoDescriptoion);
+        const todoDescription = document.createElement('textarea');
+        todoDescription.classList.add('todo-description');
+        todoDescription.value = description;
+        todoDescription.addEventListener('input', recordTodos);
+        todo.appendChild(todoDescription);
 
         document.getElementById('todos-container').appendChild(todo);
 
@@ -147,6 +150,13 @@ const  DisplayerController = (() => {
         projectHeading.value = name;
         const projectDescription = document.querySelector('.project-description');
         projectDescription.value = description;
+
+        document.querySelectorAll('.todo').forEach(todo => todo.remove());
+
+        todos.forEach(todo => {
+            console.log(todo); console.log(todo.name);
+            createTodo(todo.name, todo.description, todo.complete);
+        });
     });
 
     EventAggregator.subscribe('update nav', (id, name) => {
