@@ -85,6 +85,20 @@ const  DisplayerController = (() => {
         checkboxContainer.classList.add('todo-checkbox-container');
         todo.appendChild(checkboxContainer);
 
+        const checkbox = document.createElement('div');
+        checkbox.classList.add('todo-checkbox');
+        checkboxContainer.appendChild(checkbox);
+
+        const checkmark = document.createElement('div');
+        checkmark.classList.add('todo-checkmark');
+        checkmark.toggleAttribute('hidden');
+        checkbox.appendChild(checkmark);
+
+        checkbox.addEventListener('click', () => {
+            checkmark.toggleAttribute('hidden');
+            recordTodos();
+        });
+
         const todoName = document.createElement('input');
         todoName.classList.add('todo-name');
         todoName.addEventListener('input', recordTodos);
@@ -114,8 +128,8 @@ const  DisplayerController = (() => {
                     case 'todo-description':
                         newTodo.description = child.value;
                     break;
-                    case '.todo-checkbox-container':
-
+                    case 'todo-checkbox-container':
+                        newTodo.completed = child.children[0].children[0].getAttribute('hidden') == null;
                     break;
                 }
             });

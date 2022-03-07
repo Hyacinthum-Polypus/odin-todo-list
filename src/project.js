@@ -1,10 +1,5 @@
 import EventAggregator from "./event";
 
-const Todo = name =>
-{    
-    return {name, description, dueDate, priority, complete};
-}
-
 const Project = (id, name) =>
 {
     const proto = {
