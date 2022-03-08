@@ -70,12 +70,29 @@ main {
     grid-column: 1;
     min-width: 50px;;
     grid-row: span 4;
-    background-color: greenyellow;
     padding: 0 12px;
-
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: space-between;
     align-items: center;
+    padding-top: 8px;
+}
+
+.priority-button {
+    border: none;
+    cursor: pointer;
+}
+
+.priority-low {
+    background-color: greenyellow
+}
+
+.priority-med {
+    background-color: orange;
+}
+
+.priority-high {
+    background-color: violet;
 }
 
 .todo-checkbox {

@@ -77,14 +77,52 @@ const  DisplayerController = (() => {
         }
     }
 
-    const createTodo = (name = " ", description = " ", complete = false, dueDate = null) =>
+    const updateTodoPriority = (priorityContainer, update) =>
     {
-        const todo = document.createElement('div');
-        todo.classList.add('todo');
+        if(update == 'increase')
+        {
+            switch(priorityContainer.children[0].textContent)
+            {
+                case 'low priority':
+                    priorityContainer.children[0].textContent = 'medium priority';
+                    priorityContainer.classList.remove('priority-low');
+                    priorityContainer.classList.add('priority-med');
+                break;
+                case 'medium priority':
+                    priorityContainer.children[0].textContent = 'high priority';
+                    priorityContainer.classList.remove('priority-med');
+                    priorityContainer.classList.add('priority-high');
+                break;
+            }
+        }
+        else if(update == 'decrease')
+        {
+            switch(priorityContainer.children[0].textContent)
+            {
+                case 'medium priority':
+                    priorityContainer.children[0].textContent = 'low priority';
+                    priorityContainer.classList.remove('priority-med');
+                    priorityContainer.classList.add('priority-low');
+                break;
+                case 'high priority':
+                    priorityContainer.children[0].textContent = 'medium priority';
+                    priorityContainer.classList.remove('priority-high');
+                    priorityContainer.classList.add('priority-med');
+                break;
+            }
+        }
+    }
 
+    const createTodoCheckboxContainer = (todo, complete, priority) =>
+    {
         const checkboxContainer = document.createElement('div');
         checkboxContainer.classList.add('todo-checkbox-container');
+        checkboxContainer.classList.add('priority-low');
         todo.appendChild(checkboxContainer);
+
+        const priorityStatus = document.createElement('div');
+        checkboxContainer.appendChild(priorityStatus);
+        priorityStatus.textContent = priority;
 
         const checkbox = document.createElement('div');
         checkbox.classList.add('todo-checkbox');
@@ -100,19 +138,44 @@ const  DisplayerController = (() => {
             recordTodos();
         });
 
+        const priorityButtons = document.createElement('div');
+        checkboxContainer.appendChild(priorityButtons);
+
+        const priorityDecreaseButton = document.createElement('button');
+        priorityDecreaseButton.textContent = '<';
+        priorityDecreaseButton.classList.add('priority-button');
+        priorityButtons.appendChild(priorityDecreaseButton);
+        priorityDecreaseButton.addEventListener('click', () => updateTodoPriority(checkboxContainer, 'decrease'));
+
+        const priorityIncreaseButton = document.createElement('button');
+        priorityIncreaseButton.textContent = '>';
+        priorityIncreaseButton.classList.add('priority-button');
+        priorityButtons.appendChild(priorityIncreaseButton);
+        priorityIncreaseButton.addEventListener('click', () => updateTodoPriority(checkboxContainer, 'increase'));
+
+    }
+
+    const createTodoName = (todo, name) =>
+    {
         const todoName = document.createElement('input');
         todoName.classList.add('todo-name');
         console.log(name);
         todoName.value = name;
         todoName.addEventListener('input', recordTodos);
         todo.appendChild(todoName);
+    }
 
+    const createTodoDescription = (todo, description) =>
+    {
         const todoDescription = document.createElement('textarea');
         todoDescription.classList.add('todo-description');
         todoDescription.value = description;
         todoDescription.addEventListener('input', recordTodos);
         todo.appendChild(todoDescription);
+    }
 
+    const createTodoDueDate = (todo, dueDate) =>
+    {
         const todoDate = document.createElement('div');
         todoDate.classList.add('todo-date');
         todo.appendChild(todoDate);
@@ -156,8 +219,8 @@ const  DisplayerController = (() => {
             if(isDateInThePast({
                 day: todoDate.children[0].value,
                 month: todoDate.children[1].value,
-                year: todoDate.children[2].value}
-            )) todoDate.classList.add('late');
+                year: todoDate.children[2].value
+            })) todoDate.classList.add('late');
             else todoDate.classList.remove('late');
         }));
 
@@ -172,6 +235,20 @@ const  DisplayerController = (() => {
             todo.remove();
             recordTodos();
         });
+    }
+
+    const createTodo = (name = " ", description = " ", complete = false, dueDate = null, priority = 'low priority') =>
+    {
+        const todo = document.createElement('div');
+        todo.classList.add('todo');
+
+        createTodoCheckboxContainer(todo, complete, priority);
+
+        createTodoName(todo, name);
+
+        createTodoDescription(todo, description);
+
+        createTodoDueDate(todo, dueDate);
 
         document.getElementById('todos-container').appendChild(todo);
 
@@ -193,7 +270,14 @@ const  DisplayerController = (() => {
                         newTodo.description = child.value;
                     break;
                     case child.classList.contains('todo-checkbox-container'):
-                        newTodo.completed = child.children[0].children[0].getAttribute('hidden') == null;
+                        Array.from(child.children).forEach(child => {
+                            switch(true)
+                            {
+                                case child.classList.contains('todo-checkbox'):
+                                    newTodo.complete = child.children[0].getAttribute('hidden') == null;
+                                break;
+                            }
+                        })
                     break;
                     case child.classList.contains('todo-date'):
                         console.log(child.children);
