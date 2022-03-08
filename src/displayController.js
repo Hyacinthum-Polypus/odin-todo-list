@@ -178,7 +178,6 @@ const  DisplayerController = (() => {
     {
         const todoName = document.createElement('input');
         todoName.classList.add('todo-name');
-        console.log(name);
         todoName.value = name;
         todoName.addEventListener('input', recordTodos);
         todo.appendChild(todoName);
@@ -302,7 +301,6 @@ const  DisplayerController = (() => {
                         })
                     break;
                     case child.classList.contains('todo-date'):
-                        console.log(child.children);
                         newTodo.dueDate = {};
                         newTodo.dueDate.day = child.children[0].value;
                         newTodo.dueDate.month = child.children[1].value;
@@ -330,7 +328,6 @@ const  DisplayerController = (() => {
         document.querySelectorAll('.todo').forEach(todo => todo.remove());
 
         todos.forEach(todo => {
-            console.log(todo); console.log(todo.name);
             createTodo(todo.name, todo.description, todo.complete, todo.dueDate, todo.priority);
         });
     });
