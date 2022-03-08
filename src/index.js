@@ -1,18 +1,20 @@
 import DisplayController from './displayController.js';
 import EventAggregator from './event.js';
-import { storageAvailable, initLocalStorageListener, loadProjects } from './storage.js';
+import { storageAvailable } from './storage.js';
 import './style.css';
+
+DisplayController.initHTML();
 
 if(storageAvailable('localStorage'))
 {
     
     if(!localStorage.getItem('projects'))
     {
-        
+        defaultInit();
     }
     else
     {
-        init();
+
     }
 }
 else
@@ -20,10 +22,8 @@ else
     init();
 }
 
-function init()
+function defaultInit()
 {
-    DisplayController.initHTML();
-
-    EventAggregator.publish('add project', 'Default');
+    EventAggregator.publish('create project', 'Default');
     EventAggregator.publish('select project', 0);
 }
