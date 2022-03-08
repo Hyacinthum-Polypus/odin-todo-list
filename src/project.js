@@ -18,14 +18,19 @@ const ProjectAggregator = (() => {
         return uniqueId++;
     }
 
-    const addProject = name =>
+    const createProject = name =>
     {
         const newId = getNewUniqueId();
         _projects.push(Project(newId, name));
         console.log(_projects);
         EventAggregator.publish('project created', _projects[_projects.length-1].name, newId);
     }
-    EventAggregator.subscribe('add project', name => {addProject(name);});
+    EventAggregator.subscribe('create project', createProject);
+    const addProject = project =>
+    {
+        _projects.push(project);
+    }
+    EventAggregator.subscribe('add project', addProject)
 
     const getProject = id =>
     {
@@ -43,8 +48,6 @@ const ProjectAggregator = (() => {
         Object.assign(project, newProject);
         EventAggregator.publish('update nav', project.getId(), project.name)
     })
-
-    return {addProject, getProject}
 })()
 
 export default ProjectAggregator
