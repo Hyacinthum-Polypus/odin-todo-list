@@ -79,37 +79,50 @@ const  DisplayerController = (() => {
 
     const updateTodoPriority = (priorityContainer, update) =>
     {
+        const priority = priorityContainer.children[0].textContent;
+
         if(update == 'increase')
         {
-            switch(priorityContainer.children[0].textContent)
+            switch(priority)
             {
                 case 'low priority':
                     priorityContainer.children[0].textContent = 'medium priority';
                     priorityContainer.classList.remove('priority-low');
-                    priorityContainer.classList.add('priority-med');
                 break;
                 case 'medium priority':
                     priorityContainer.children[0].textContent = 'high priority';
                     priorityContainer.classList.remove('priority-med');
-                    priorityContainer.classList.add('priority-high');
                 break;
             }
         }
         else if(update == 'decrease')
         {
-            switch(priorityContainer.children[0].textContent)
+            switch(priority)
             {
                 case 'medium priority':
                     priorityContainer.children[0].textContent = 'low priority';
                     priorityContainer.classList.remove('priority-med');
-                    priorityContainer.classList.add('priority-low');
                 break;
                 case 'high priority':
                     priorityContainer.children[0].textContent = 'medium priority';
                     priorityContainer.classList.remove('priority-high');
-                    priorityContainer.classList.add('priority-med');
                 break;
             }
+        }
+        
+        priorityContainer.classList.add(convertPriorityToClass(priorityContainer.children[0].textContent));
+    }
+
+    const convertPriorityToClass = priority =>
+    {
+        switch(priority)
+        {
+            case 'low priority':
+                return 'priority-low';
+            case 'medium priority':
+                return 'priority-med';
+            case 'high priority':
+                return 'priority-high';
         }
     }
 
@@ -117,10 +130,11 @@ const  DisplayerController = (() => {
     {
         const checkboxContainer = document.createElement('div');
         checkboxContainer.classList.add('todo-checkbox-container');
-        checkboxContainer.classList.add('priority-low');
+        checkboxContainer.classList.add(convertPriorityToClass(priority));
         todo.appendChild(checkboxContainer);
 
         const priorityStatus = document.createElement('div');
+        priorityStatus.classList.add('priority-status');
         checkboxContainer.appendChild(priorityStatus);
         priorityStatus.textContent = priority;
 
@@ -145,14 +159,19 @@ const  DisplayerController = (() => {
         priorityDecreaseButton.textContent = '<';
         priorityDecreaseButton.classList.add('priority-button');
         priorityButtons.appendChild(priorityDecreaseButton);
-        priorityDecreaseButton.addEventListener('click', () => updateTodoPriority(checkboxContainer, 'decrease'));
+        priorityDecreaseButton.addEventListener('click', () => {
+            updateTodoPriority(checkboxContainer, 'decrease');
+            recordTodos();
+        });
 
         const priorityIncreaseButton = document.createElement('button');
         priorityIncreaseButton.textContent = '>';
         priorityIncreaseButton.classList.add('priority-button');
         priorityButtons.appendChild(priorityIncreaseButton);
-        priorityIncreaseButton.addEventListener('click', () => updateTodoPriority(checkboxContainer, 'increase'));
-
+        priorityIncreaseButton.addEventListener('click', () => {
+            updateTodoPriority(checkboxContainer, 'increase');
+            recordTodos();
+        });
     }
 
     const createTodoName = (todo, name) =>
@@ -276,6 +295,9 @@ const  DisplayerController = (() => {
                                 case child.classList.contains('todo-checkbox'):
                                     newTodo.complete = child.children[0].getAttribute('hidden') == null;
                                 break;
+                                case child.classList.contains('priority-status'):
+                                    newTodo.priority = child.textContent;
+                                break;
                             }
                         })
                     break;
@@ -309,7 +331,7 @@ const  DisplayerController = (() => {
 
         todos.forEach(todo => {
             console.log(todo); console.log(todo.name);
-            createTodo(todo.name, todo.description, todo.complete, todo.dueDate);
+            createTodo(todo.name, todo.description, todo.complete, todo.dueDate, todo.priority);
         });
     });
 
