@@ -73,7 +73,7 @@ const  DisplayerController = (() => {
             input.classList.add('add-project-input')
             document.querySelector('.input-bar').appendChild(input);
             input.focus();
-            input.addEventListener('keydown', e => {if(e.key == 'Enter') {EventAggregator.publish('add project', input.value); toggleAddProjectInput()};});
+            input.addEventListener('keydown', e => {if(e.key == 'Enter') {EventAggregator.publish('create project', input.value); toggleAddProjectInput()};});
         }
     }
 
