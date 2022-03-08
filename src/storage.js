@@ -1,3 +1,5 @@
+import EventAggregator from "./event";
+
 function storageAvailable(type) {
     var storage;
     try {
@@ -23,4 +25,20 @@ function storageAvailable(type) {
     }
 }
 
-export {storageAvailable}
+function writeProjectsToStorage(projects)
+{
+    console.log(projects);
+    localStorage.setItem('projects', JSON.stringify(projects));
+}
+
+function initLocalStorageListener()
+{
+    EventAggregator.subscribe('write storage', writeProjectsToStorage);
+}
+
+function loadProjects()
+{
+    
+}
+
+export {storageAvailable, initLocalStorageListener, loadProjects}

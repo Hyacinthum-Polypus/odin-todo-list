@@ -24,6 +24,7 @@ const ProjectAggregator = (() => {
         _projects.push(Project(newId, name));
         console.log(_projects);
         EventAggregator.publish('project created', _projects[_projects.length-1].name, newId);
+        EventAggregator.publish('write storage', _projects);
     }
     EventAggregator.subscribe('create project', createProject);
     const addProject = project =>
@@ -46,7 +47,8 @@ const ProjectAggregator = (() => {
         const project = getProject(id);
         
         Object.assign(project, newProject);
-        EventAggregator.publish('update nav', project.getId(), project.name)
+        EventAggregator.publish('update nav', project.getId(), project.name);
+        EventAggregator.publish('write storage', _projects);
     })
 })()
 
