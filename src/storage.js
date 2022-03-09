@@ -40,7 +40,6 @@ function loadProjects()
 {
     const projects = JSON.parse(localStorage.getItem('projects'));
     projects.forEach(project => {
-        console.log(project);
         EventAggregator.publish('add project', project);
     });
 

@@ -320,9 +320,6 @@ const  DisplayerController = (() => {
             });
             return newTodo;
         });
-        console.group('new todo');
-        console.log(newTodos);
-        console.groupEnd();
         EventAggregator.publish('update project', getSelectedProjectId(),{todos: newTodos});
     }
 

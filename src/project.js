@@ -22,7 +22,6 @@ const ProjectAggregator = (() => {
     {
         const newId = getNewUniqueId();
         _projects.push(Project(newId, name));
-        console.log(_projects);
         EventAggregator.publish('project created', _projects[_projects.length-1].name, newId);
         EventAggregator.publish('write storage', _projects);
     }
