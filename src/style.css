@@ -164,6 +164,11 @@ header {
     margin-bottom: 50px;
 }
 
+#image-logo {
+    height: 50px;
+    width: 50px;
+}
+
 nav ul {
     padding: 0;
     display: grid;

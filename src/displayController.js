@@ -1,5 +1,6 @@
 import EventAggregator from "./event";
 import { isDateInThePast } from "./date";
+import logo from './images/assignment_black_24dp.svg';
 
 const  DisplayerController = (() => {
     const initHTML = () =>
@@ -7,7 +8,7 @@ const  DisplayerController = (() => {
         document.getElementById('content').innerHTML = `
         <div class="sidebar">
             <header>
-                <img src="" alt="Logo">
+                <img src="" alt="Logo" id="image-logo">
                 <h1>Todo List</h1>
             </header>
             <div class="toolbar">
@@ -43,6 +44,8 @@ const  DisplayerController = (() => {
         projectDescription.addEventListener('input',  () => EventAggregator.publish('update project', getSelectedProjectId(), {description: projectDescription.value}));
 
         document.getElementById('new-todo').addEventListener('click', () => createTodo())
+
+        document.getElementById('image-logo').src = logo;
     }
 
     const getSelectedProjectId = () =>
@@ -80,6 +83,7 @@ const  DisplayerController = (() => {
         {
             const input = document.createElement('input');
             input.setAttribute('type', 'text');
+            input.setAttribute('placeholder', 'Press enter to submit...');
             input.classList.add('add-project-input')
             document.querySelector('.input-bar').appendChild(input);
             input.focus();
@@ -187,6 +191,7 @@ const  DisplayerController = (() => {
     const createTodoName = (todo, name) =>
     {
         const todoName = document.createElement('input');
+        todoName.setAttribute('placeholder', 'Enter todo name here...');
         todoName.classList.add('todo-name');
         todoName.value = name;
         todoName.addEventListener('input', recordTodos);
@@ -196,6 +201,7 @@ const  DisplayerController = (() => {
     const createTodoDescription = (todo, description) =>
     {
         const todoDescription = document.createElement('textarea');
+        todoDescription.setAttribute('placeholder', 'Enter todo description here...');
         todoDescription.classList.add('todo-description');
         todoDescription.value = description;
         todoDescription.addEventListener('input', recordTodos);
