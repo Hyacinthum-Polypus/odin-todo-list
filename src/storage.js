@@ -27,7 +27,6 @@ function storageAvailable(type) {
 
 function writeProjectsToStorage(projects)
 {
-    console.log(projects);
     localStorage.setItem('projects', JSON.stringify(projects));
 }
 
