@@ -38,7 +38,13 @@ function initLocalStorageListener()
 
 function loadProjects()
 {
-    
+    const projects = JSON.parse(localStorage.getItem('projects'));
+    projects.forEach(project => {
+        console.log(project);
+        EventAggregator.publish('add project', project);
+    });
+
+    EventAggregator.publish('select project', 0);
 }
 
 export {storageAvailable, initLocalStorageListener, loadProjects}

@@ -1,12 +1,12 @@
 import EventAggregator from "./event";
 
-const Project = (id, name) =>
+const Project = (id, name, project) =>
 {
     const proto = {
         getId: () => {return id},
     }
 
-    return Object.assign(Object.create(proto), {name, description: '', todos: []});
+    return Object.assign(Object.create(proto), {name, description: '', todos: []},  project);
 }
 
 const ProjectAggregator = (() => {
@@ -29,7 +29,9 @@ const ProjectAggregator = (() => {
     EventAggregator.subscribe('create project', createProject);
     const addProject = project =>
     {
-        _projects.push(project);
+        const newId = getNewUniqueId();
+        _projects.push(Project(newId, project.name, project));
+        EventAggregator.publish('project created', _projects[_projects.length-1].name, newId);
     }
     EventAggregator.subscribe('add project', addProject)
 

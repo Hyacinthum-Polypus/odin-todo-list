@@ -1,6 +1,6 @@
 import DisplayController from './displayController.js';
 import EventAggregator from './event.js';
-import { storageAvailable, initLocalStorageListener } from './storage.js';
+import { storageAvailable, initLocalStorageListener, loadProjects } from './storage.js';
 import './style.css';
 
 DisplayController.initHTML();
@@ -14,7 +14,7 @@ if(storageAvailable('localStorage'))
     }
     else
     {
-
+        loadProjects();
     }
 }
 else
