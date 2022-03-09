@@ -40,6 +40,11 @@ const ProjectAggregator = (() => {
         return _projects.find(project => {return project.getId() == id});
     }
 
+    const getProjectIndex = id =>
+    {
+        return  _projects.indexOf(project => {return project.getId() == id});
+    }
+
     EventAggregator.subscribe('select project', id => {
         const project = getProject(id);
         EventAggregator.publish('view project', project.getId(), project.name, project.description, project.todos);
@@ -51,7 +56,15 @@ const ProjectAggregator = (() => {
         Object.assign(project, newProject);
         EventAggregator.publish('update nav', project.getId(), project.name);
         EventAggregator.publish('write storage', _projects);
-    })
+    });
+
+    const deleteProject = id =>
+    {
+        const projectIndex = getProjectIndex(id);
+        _projects.splice(projectIndex - 1, 1);
+        EventAggregator.publish('write storage', _projects);    
+    }
+    EventAggregator.subscribe('delete project', deleteProject);
 })()
 
 export default ProjectAggregator

@@ -56,7 +56,17 @@ const  DisplayerController = (() => {
         listItem.textContent = project;
         listItem.setAttribute('data-id', id);
         listItem.addEventListener('click', () => {EventAggregator.publish('select project', id);});
+
+        const deleteProject = document.createElement('button');
+        deleteProject.addEventListener('click', () => {
+            listItem.remove();
+            deleteProject.remove();
+            EventAggregator.publish('delete project', id);
+        });
+        deleteProject.textContent = "X";
         document.querySelector('ul').appendChild(listItem);
+        document.querySelector('ul').appendChild(deleteProject);
+
     }
     EventAggregator.subscribe('project created', (projectName, id) => addProjectToNav(projectName, id));
 
@@ -255,7 +265,7 @@ const  DisplayerController = (() => {
         });
     }
 
-    const createTodo = (name = " ", description = " ", complete = false, dueDate = null, priority = 'low priority') =>
+    const createTodo = (name = "", description = "", complete = false, dueDate = null, priority = 'low priority') =>
     {
         const todo = document.createElement('div');
         todo.classList.add('todo');

@@ -166,6 +166,12 @@ header {
 
 nav ul {
     padding: 0;
+    display: grid;
+    grid-template-columns: 9fr 1fr;
+}
+
+nav ul button {
+    border: none;
 }
 
 nav li {
